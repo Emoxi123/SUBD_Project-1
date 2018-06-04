@@ -7,7 +7,9 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
-
+var app = express();
+var bodyParser = require("body-parser");
+app.use(bodyParser.urlencoded({ extended: false }));
 const mysql = require('mysql');
 
 //Create connection
@@ -25,7 +27,6 @@ db.connect(function(err) {
 });
 
 // Create DATABASE
-var app = express();
 app.use('/createdb', function(req, res) {
 
   var sql = "CREATE DATABASE nodemysql";
@@ -40,77 +41,86 @@ app.use('/createdb', function(req, res) {
 // Create TABLE
 app.use('/createtable', function (req, res) {
 
-    var sql = "CREATE TABLE posts(id int AUTO_INCREMENT, title VARCHAR(250), body VARCHAR(250), PRIMARY KEY (id))";
+        var sql = "CREATE TABLE passengers(id int AUTO_INCREMENT NOT NULL" +
+            ", passengerName VARCHAR(30), city VARCHAR(60), dateFlight VARCHAR(20)" +
+            ", flightNumber int, PRIMARY KEY (id))";
+
     db.query(sql, function (err, result) {
         if(err) throw err;
         console.log(result);
-        res.send("CREATED TABLE posts");
+        res.send("CREATED TABLE passengers");
     })
 });
 
 // Insert VALUES
-app.use('/addpost', function (req, res) {
+app.post('/addpassenger', function (req, res) {
 
-  var post =  {title: "Post One", body: "This is example"};
-  var sql = "INSERT INTO posts SET ?";
+    var passenger =  {passengerName: req.body.pgrName, city: req.body.bornCity, dateFlight: req.body.flightDate, flightNumber: req.body.flightNum};
+    var sql = "INSERT INTO passengers SET ?";
 
-  db.query(sql, post, function (err, result) {
-      if(err) throw err;
-      console.log(result);
-      res.send("Post Added");
-  })
+    db.query(sql, passenger, function (err, result) {
+        if(err) throw err;
+        console.log(result);
+        res.send("Passenger successfully added.");
+    })
 });
 
+var data;
 // Select VALUES
-app.use('/getposts', function (req, res) {
+app.use('/getpassengers', function (req, res) {
 
-    var sql = "SELECT * FROM posts";
-
+    var sql = "SELECT * FROM passengers";
     db.query(sql, function (err, results) {
         if(err) throw err;
+
+        if(res.length > 0)
+            data = res;
+        else
+            data = null;
+
         console.log(results);
-        res.send("SELECT * FROM posts");
+        res.send("SELECT * FROM passengers");
     })
 });
 
 // Select single post
-app.use('/getpost/:id', function (req, res) {
+app.use('/getpassenger/:id', function (req, res) {
 
    //Template literal
-    var sql = `SELECT * FROM posts WHERE id = ${req.params.id}`;
+    var sql = `SELECT * FROM passengers WHERE id = ${req.params.id}`;
 
     db.query(sql, function (err, results) {
         if(err) throw err;
         console.log(results);
-        res.send("Post fetched ...");
+        res.send("Passenger fetched ...");
     })
 });
 
 //UPDATE post
-app.use('/updatepost/:id', function (req, res) {
-    var newTitle = "UpdatedTitle";
+app.use('/updatepassenger/:id', function (req, res) {
+    var newName = "NewName";
 
     //Template literal
-    var sql = `UPDATE posts
-               SET title = '${newTitle}'
+    var sql = `UPDATE passengers
+               SET passengerName = '${newName}'
                WHERE id = ${req.params.id}`;
 
     db.query(sql, function (err, result) {
         if(err) throw err;
         console.log(result);
-        res.send("Post updated successfully");
+        res.send("Passenger info updated successfully");
     })
 });
 
 //DELETE post
-app.use('/deletepost/:id', function (req, res) {
+app.use('/deletepassenger/:id', function (req, res) {
     //Template literal
-    var sql = `DELETE FROM posts WHERE id = ${req.params.id}`;
+    var sql = `DELETE FROM passengers WHERE id = ${req.params.id}`;
 
     db.query(sql, function (err, result) {
         if(err) throw err;
         console.log(result);
-        res.send(`Post ${req.params.id} successfully deleted`);
+        res.send(`Passenger ${req.params.id} successfully deleted`);
     })
 });
 
