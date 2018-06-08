@@ -1,0 +1,10 @@
+<% include partials/header%>
+<div class="container">
+  <p class="p-bg-red">
+    <h2><%= error.status %></h2>
+  </p>
+  <p>
+      <%= error.stack %>
+  </p>
+</div>
+<% include partials/footer%>

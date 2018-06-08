@@ -10,45 +10,41 @@
                 <a class="navbar-brand" href="#">Home</a>
               </div>
               <ul class="nav navbar-nav">
-                <li class="active"><a href="/">Passenger</a></li>
-                <li><a href="/flights">Flight</a></li>
+                <li><a href="/">Passenger</a></li>
+                <li class="active"><a href="/flights">Flight</a></li>
                 <li><a href="/list">List</a></li>
               </ul>
             </div>
           </nav>
 
           <div class="container">
-              <h1>Passenger Information</h1>
+              <h1>Flight</h1>
 
-            <form action="/addpassenger" method="post">
+            <form action="/addflights" method="post">
+              <div class="form-group">
+                <label for="exampleFormControlInput1">Number:</label>
+                <input class="form-control" type="text"  name="flightNum" placeholder="Enter number of your flight:" />
+              </div>
+              <div class="form-group">
+                <label for="exampleFormControlInput1">Origin:</label>
+                <input class="form-control" type="text"  name="originCity" placeholder="Enter your origin city:" />
+              </div>
             <div class="form-group">
-              <label for="exampleFormControlInput1">Name:</label>
-              <input class="form-control" type="text"  name="pgrName" placeholder="Enter a passenger name:" />
-            </div>
-            <div class="form-group">
-              <label for="exampleFormControlInput1">City:</label>
-              <input class="form-control" type="text"  name="bornCity" placeholder="Enter passenger city" />
+              <label for="exampleFormControlInput1">Destination:</label>
+              <input class="form-control" type="text"  name="destinationCity" placeholder="Enter a destination city" />
             </div>
             <div class="form-group">
               <label for="exampleFormControlInput1">Flight date:</label>
               <input class="form-control" type="text"  name="flightDate" placeholder="YYYY-MM-DD" />
             </div>
             <div class="form-group">
-              <label for="exampleForConrolInput1">Flight number:</label>
-              <input class="form-control" type="text"  name="flightNum" placeholder="NUMBER" />
+              <label for="exampleForConrolInput1">Price:</label>
+              <input class="form-control" type="text"  name="flightNum" placeholder=" $ " />
             </div>
             <div class="form-group">
-                <input class="btn btn-primary" type="submit" value="Submit">
-                <input class="btn btn-primary" formaction="/getpassengers" type="submit" value="Get All">
+              <input class="btn btn-primary" type="submit" value="Submit">
             </div>
             </form>
        </div>
-  <br>
-        <!--
-            <ul>
-            <% pass.forEach(function(ps){ %>
-              <li><%= ps.passengerName%> <%= ps.city%></li>
-            <% })%>
-            </ul>
-        -->
+
   </body>

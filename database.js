@@ -44,11 +44,54 @@ app.use('/createtable', function (req, res) {
         res.send("CREATED TABLE passengers");
     })
 });
+app.use('/createtable1', function (req, res) {
+    var sql = "CREATE TABLE flights(id int AUTO_INCREMENT NOT NULL" +
+        ",  flightNumber int, originCity VARCHAR(60), destinationCity VARCHAR(60)" +
+        ", countPassengers int, price int, dateFlight VARCHAR(20)" +
+        ", PRIMARY KEY (id))";
+    db.query(sql, function (err, result) {
+        if(err) throw err;
+        console.log(result);
+        res.send("CREATED TABLE flights");
+    })
+});
 
+
+app.get('/', function (req, res) {
+    var passenger =  [
+        {
+            passengerName: "Jack",
+            city: "Sofia",
+            dateFlight: req.body.flightDate,
+            flightNumber: req.body.flightNum,
+        },
+        {
+            passengerName: "Ally",
+                city: "Avga",
+            dateFlight: req.body.flightDate,
+            flightNumber: req.body.flightNum,
+        },
+        {
+            passengerName: req.body.pgrName,
+                city: req.body.bornCity,
+            dateFlight: req.body.flightDate,
+            flightNumber: req.body.flightNum,
+        }
+    ];
+    res.render('index', {
+       pass: passenger
+    });
+});
 // Insert VALUES
 app.use('/addpassenger', function (req, res) {
 
-    var passenger =  {passengerName: req.body.pgrName, city: req.body.bornCity, dateFlight: req.body.flightDate, flightNumber: req.body.flightNum};
+    var passenger =  {
+        passengerName: req.body.pgrName,
+        city: req.body.bornCity,
+        dateFlight: req.body.flightDate,
+        flightNumber: req.body.flightNum
+    };
+
     var sql = "INSERT INTO passengers SET ?";
 
     db.query(sql, passenger, function (err, result) {

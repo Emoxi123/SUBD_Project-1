@@ -12,8 +12,14 @@ router.get('/passenger', function (req, res, next) {
 
 router.get('/list', function (req, res, next) {
     res.render('list', {
-        title: 'Express'
+        title: 'List'
     });
+});
+
+router.get('/flights', function (req, res, next) {
+   res.render('flights',{
+       title: 'Flights'
+   });
 });
 
 module.exports = router;
