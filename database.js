@@ -35,7 +35,7 @@ app.use('/createdb', function(req, res) {
 app.use('/createtable', function (req, res) {
 
     var sql = "CREATE TABLE passengers(id int AUTO_INCREMENT NOT NULL" +
-        ", passengerName VARCHAR(30), city VARCHAR(60), dateFlight VARCHAR(20)" +
+        ", passengerName VARCHAR(30), city VARCHAR(60)," +
         ", flightNumber int, PRIMARY KEY (id))";
 
     db.query(sql, function (err, result) {
@@ -88,7 +88,6 @@ app.use('/addpassenger', function (req, res) {
     var passenger =  {
         passengerName: req.body.pgrName,
         city: req.body.bornCity,
-        dateFlight: req.body.flightDate,
         flightNumber: req.body.flightNum
     };
 
@@ -100,6 +99,29 @@ app.use('/addpassenger', function (req, res) {
         res.send("Passenger successfully added.");
     })
 });
+
+app.use('/addflight', function (req, res) {
+
+
+
+    var flight =  {
+        flightNumber: req.body.flightNum,
+        originCity: req.body.originCity,
+        destiantionCity: req.body.destinationCity,
+    	countPassengers: req.body.countPassengers,
+    	price: req.body.price,
+    	dateFlight: req.body.flightDate
+    		
+    };
+
+    var sql = "INSERT INTO flights SET ?";
+
+    db.query(sql, passenger, function (err, result) {
+        if(err) throw err;
+        console.log(result);
+        res.send("Flight successfully added.");
+    })
+   });
 
 var data;
 // Select VALUES
